@@ -218,7 +218,7 @@ export interface GiftedChatState<TMessage extends IMessage = IMessage> {
 class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   GiftedChatProps<TMessage>,
   GiftedChatState
-> {
+  > {
   static childContextTypes = {
     actionSheet: PropTypes.func,
     getLocale: PropTypes.func,
@@ -232,12 +232,12 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     disableComposer: false,
     messageIdGenerator: () => uuid.v4(),
     user: {},
-    onSend: () => {},
+    onSend: () => { },
     locale: null,
     timeFormat: TIME_FORMAT,
     dateFormat: DATE_FORMAT,
     loadEarlier: false,
-    onLoadEarlier: () => {},
+    onLoadEarlier: () => { },
     isLoadingEarlier: false,
     renderLoading: null,
     renderLoadEarlier: null,
@@ -439,14 +439,18 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   }
 
   componentDidUpdate(prevProps: GiftedChatProps<TMessage> = {}) {
-    const { messages, text, inverted } = this.props
+    const {
+      messages,
+      text,
+      // inverted,
+    } = this.props
 
     if (this.props !== prevProps) {
       this.setMessages(messages || [])
     }
 
     if (
-      inverted === false &&
+      // inverted === false &&
       messages &&
       prevProps.messages &&
       messages.length !== prevProps.messages.length
@@ -597,10 +601,10 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
   onKeyboardWillShow = (e: any) => {
     if (this.props.isKeyboardInternallyHandled) {
       if (Date.now() - this._lastUpdate < 100) {
-          return;
+        return;
       }
       this._lastUpdate = Date.now()
-      
+
       this.setIsTypingDisabled(true)
       this.setKeyboardHeight(
         e.endCoordinates ? e.endCoordinates.height : e.end.height,
@@ -678,8 +682,8 @@ class GiftedChat<TMessage extends IMessage = IMessage> extends React.Component<
     return this.props.isKeyboardInternallyHandled ? (
       <KeyboardAvoidingView enabled>{fragment}</KeyboardAvoidingView>
     ) : (
-      fragment
-    )
+        fragment
+      )
   }
 
   onSend = (messages: TMessage[] = [], shouldResetInputToolbar = false) => {
